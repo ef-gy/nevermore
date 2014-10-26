@@ -21,11 +21,21 @@ function withHash (file, callback) {
   fd.pipe(hash);
 }
 
-if (operation === 'hash')
-{
-  operands.forEach(function(file) {
-    withHash(file, function(hash){
-      console.log(file,'~',hash);
-    });
-  });
+var ops = {
+  'hash': {
+    'f': function(operands) {
+      operands.forEach(function(file) {
+        withHash(file, function(hash){
+          console.log(file,'~',hash);
+        });
+      });
+    },
+    'description': 'hash all operands and output the result to stdout.'
+  }
+}
+
+for (i in ops) {
+  if (operation === i) {
+    ops[i].f(operands);
+  }
 }
